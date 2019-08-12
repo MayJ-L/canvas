@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <style type="text/css">
+        body {
+            background: #eeeeee;
+        }
+
+
+
+        #canvas {
+            background: #ffffff;
+            cursor: pointer;
+            display: block;
+            margin-left: 100px;
+            margin-top: 100px;
+            -webkit-box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+            -moz-box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+            -box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        #map-box {
+            position: relative;
+        }
+
+        #img {
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <select name="123" id="type">
+        <option value="1">直线</option>
+        <option value="2">曲线</option>
+        <option value="3">虚直线</option>
+        <option value="4">虚曲线</option>
+        <option value="5">橡皮檫</option>
+    </select>
+    <input type="range" value="10" max="40" mmin="0" step="5" id="racSize"/>
+    <button id="backup">撤销</button>
+    <button id="backupCancel">取消撤销</button>
+    <div id="map-box">
+
+        <canvas id="canvas" width="600" height="400">
+        </canvas>
+    </div>
+
+
+</body>
+<script src="node_modules/jquery/dist/jquery.min.js"></script>
+<script src="canvas.js"></script>
+
+</html>
