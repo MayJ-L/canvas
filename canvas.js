@@ -1,13 +1,13 @@
  var canvas = document.getElementById('canvas');
  var context = canvas.getContext("2d");
-var drawingSurfacsImageData = null; //存储画布上的数据
+ var drawingSurfacsImageData = null; //存储画布上的数据
  var dragging = false;
  var loc = null;
  var mousedown = {};
  var img = document.getElementById("scream");
  var type = null;
-var canvasDataArr = [];  // 存储画布上数据集合
-var canvasBackUpDataArr = [];  // 撤销存储画布上数据集合
+ var canvasDataArr = []; // 存储画布上数据集合
+ var canvasBackUpDataArr = []; // 撤销存储画布上数据集合
  var map = new Image();
  map.src = "map.png";
 
@@ -102,17 +102,7 @@ var canvasBackUpDataArr = [];  // 撤销存储画布上数据集合
  canvas.onmousemove = function (e) {
      loc = windowToCanvas(e.clientX, e.clientY);
      e.preventDefault();
-     if (dragging) {
-         if (type == "1" || type == "3") {
-             restoreDrawingSurface();
-             updateRubberband(loc);
-         } else if (type == "2" || type == "4") {
-             mousedown.x = loc.x;
-             mousedown.y = loc.y;
-             updateRubberband(loc);
-         }
 
-     }
      if (type == "5") {
          size = document.getElementById("racSize").value;
          restoreDrawingSurface();
@@ -130,6 +120,19 @@ var canvasBackUpDataArr = [];  // 撤销存储画布上数据集合
          context.strokeStyle = "green";
          context.stroke();
 
+     } else {
+         document.getElementById("canvas").style.cursor = 'url("./timg.ico") 0 32,auto'  ;
+         if (dragging) {
+             if (type == "1" || type == "3") {
+                 restoreDrawingSurface();
+                 updateRubberband(loc);
+             } else if (type == "2" || type == "4") {
+                 mousedown.x = loc.x;
+                 mousedown.y = loc.y;
+                 updateRubberband(loc);
+             }
+
+         }
      }
 
 
@@ -139,36 +142,36 @@ var canvasBackUpDataArr = [];  // 撤销存储画布上数据集合
      if (type == "5") {
          context.setLineDash([]);
          saveDrawingSurface();
-     } 
+     }
 
-}
- 
+ }
+
  canvas.onmouseup = function (e) {
      loc = windowToCanvas(e.clientX, e.clientY);
      if (type !== "5") {
          //鼠标放开后存储当前画布数据
-        
+
          restoreDrawingSurface();
          updateRubberband(loc);
-       
+
      } else {
          restoreDrawingSurface();
      }
-     canvasDataArr.push(context.getImageData(0, 0, canvas.width, canvas.height)); 
+     canvasDataArr.push(context.getImageData(0, 0, canvas.width, canvas.height));
      //鼠标抬起，拖动标记设为否
      dragging = false;
-};
-document.getElementById("backup").onclick = function () { 
-    if (canvasDataArr.length > 1) { 
-        canvasBackUpDataArr.push(canvasDataArr.pop());
-        drawingSurfacsImageData = canvasDataArr[canvasDataArr.length - 1];
-        restoreDrawingSurface();
-    }
-}
-document.getElementById("backupCancel").onclick = function () {
-    if (canvasBackUpDataArr.length > 0) { 
-        drawingSurfacsImageData = canvasBackUpDataArr.pop();
-        canvasDataArr.push(drawingSurfacsImageData);
-        restoreDrawingSurface();
-    }
-}
+ };
+ document.getElementById("backup").onclick = function () {
+     if (canvasDataArr.length > 1) {
+         canvasBackUpDataArr.push(canvasDataArr.pop());
+         drawingSurfacsImageData = canvasDataArr[canvasDataArr.length - 1];
+         restoreDrawingSurface();
+     }
+ }
+ document.getElementById("backupCancel").onclick = function () {
+     if (canvasBackUpDataArr.length > 0) {
+         drawingSurfacsImageData = canvasBackUpDataArr.pop();
+         canvasDataArr.push(drawingSurfacsImageData);
+         restoreDrawingSurface();
+     }
+ }
